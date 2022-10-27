@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Computed</title>
+</head>
+
+<body>
+    <script src="../dist/VueReactivity.global.js"></script>
+    <!-- <script src="./reactivity.global.js"></script> -->
+    <script>
+        const { reactive, computed, effect } = VueReactivity
+        const nums = reactive({
+            a: 1,
+            b: 2
+        })
+        const count = computed(() => {
+            console.log('🚀 do count')
+            return nums.a + nums.b
+        })
+        const count1 = computed(
+            () => {
+                console.log('🚀 do count111')
+                return nums.a + nums.b
+            }
+            // {
+            //     get() {
+            //         console.log('🚀 get count')
+            //         return nums.a + nums.b
+            //     },
+            //     set(v) {
+            //         console.log('🚀 set count', v)
+            //     }
+            // }
+        )
+        const count2 = computed(() => {
+            console.log('🚀 count1 + count')
+            return count.value + count1.value
+        })
+        effect(() => console.log('✅ effect count value', count.value))
+        setTimeout(() => {
+            // console.log(count.value)
+            nums.a = 2
+        }, 2000)
+    </script>
+</body>
+
+</html>

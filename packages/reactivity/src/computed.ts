@@ -47,6 +47,7 @@ export function computed(getterOrOptions) {
     let setter;
     if (onlyGetter) {
         getter = getterOrOptions
+        setter = () => { }
     } else {
         getter = getterOrOptions.get
         setter = getterOrOptions.set

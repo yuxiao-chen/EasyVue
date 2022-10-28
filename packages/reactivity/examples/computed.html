@@ -22,19 +22,19 @@
             return nums.a + nums.b
         })
         const count1 = computed(
-            () => {
-                console.log('🚀 do count111')
-                return nums.a + nums.b
-            }
-            // {
-            //     get() {
-            //         console.log('🚀 get count')
-            //         return nums.a + nums.b
-            //     },
-            //     set(v) {
-            //         console.log('🚀 set count', v)
-            //     }
+            // () => {
+            //     console.log('🚀 do count111')
+            //     return nums.a + nums.b
             // }
+            {
+                get() {
+                    console.log('🚀 do count111')
+                    return nums.a + nums.b
+                },
+                set(v) {
+                    console.log('🚀 set count', v)
+                }
+            }
         )
         const count2 = computed(() => {
             console.log('🚀 count1 + count')

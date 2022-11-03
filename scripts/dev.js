@@ -8,6 +8,7 @@ const formats = args.f || 'global';
 const sourceMap = args.s || false
 
 // console.log(process.env)
+console.log(target)
 
 execa('rollup', [
     '-wc', // --watch --config

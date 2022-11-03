@@ -1,0 +1,24 @@
+{
+    "name": "@vue/runtime-dom",
+    "version": "1.0.0",
+    "description": "@vue/runtime-dom",
+    "main": "index.js",
+    "module": "dist/runtime-dom.esm-bundler.js",
+    "unpkg": "dist/runtime-dom.global.js",
+    "files": [
+        "index.js",
+        "dist"
+    ],
+    "buildOptions": {
+        "name": "VueRuntimeDOM",
+        "formats": [
+            "esm-bundler",
+            "cjs",
+            "global"
+        ]
+    },
+    "dependencies": {
+        "@vue/shared": "workspace:^1.0.0",
+        "@vue/runtime-core": "workspace:^1.0.0"
+    }
+}

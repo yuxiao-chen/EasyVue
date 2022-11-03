@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Dom</title>
+</head>
+
+<body>
+    <div id="app">loading...</div>
+    <script src="../dist/VueRuntimeDOM.global.js"></script>
+    <!-- <script src="./runtime-dom.global.js"></script> -->
+    <script>
+        const { createApp, h, ref, effect } = VueRuntimeDOM
+
+        const App = {
+            props: {
+                title: String
+            },
+            setup(props) {
+                const count = ref(0)
+                const add = () => {
+                    console.log('++')
+                    count.value++
+                }
+
+                const flag = ref(true)
+                const changeFlag = () => flag.value = !flag.value
+                setTimeout(changeFlag, 1000)
+                return () => {
+                    return flag.value ?
+                        h('div', {
+                            style: { color: '#f00' }
+                        }, '123') :
+                        h('h1', {
+                            style: { color: '#0f0' }
+                        }, '456')
+                    // return flag.value
+                    //     ? h('button', { onClick: add, style: { fontSize: '20px' } }, `${props.title || 'count'}: ${count.value}`)
+                    //     : h('h1', { onClick: changeFlag }, 'flag false')
+                }
+            }
+        }
+
+        const app = createApp(App)
+        app.mount(document.querySelector('#app'))
+    </script>
+</body>
+
+</html>

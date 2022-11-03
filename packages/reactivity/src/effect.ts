@@ -95,6 +95,7 @@ export function trigget(target, key) {
 }
 
 export function triggerEffects(effects) {
+    console.log('effects', effects)
     for (const effect of effects) {
         if (effect.computed) {
             triggerEffect(effect)

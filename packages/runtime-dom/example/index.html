@@ -26,17 +26,28 @@
                     count.value++
                 }
 
-                const flag = ref(true)
-                const changeFlag = () => flag.value = !flag.value
-                setTimeout(changeFlag, 1000)
+                const data = ref(['a', 'b', 'c', 'd', 'e', 'f'])
+                const changeData = () => data.value = ['a', 'b', 'e', 'c', 'd', 'h', 'f']
+                setTimeout(changeData, 1000)
+
+                // const flag = ref(true)
+                // const changeFlag = () => flag.value = !flag.value
+                // setTimeout(changeFlag, 1000)
                 return () => {
-                    return flag.value ?
-                        h('div', {
-                            style: { color: '#f00' }
-                        }, '123') :
-                        h('h1', {
-                            style: { color: '#0f0' }
-                        }, '456')
+                    return h('ul', data.value.map((i) => {
+                        return h('li', {
+                            key: i
+                        }, i)
+                    }))
+                    // return flag.value ?
+                    //     h('div', {
+                    //         style: { color: '#f00' }
+                    //     }, [
+                    //         h('div', )
+                    //     ]) :
+                    //     h('div', {
+                    //         style: { color: '#0f0' }
+                    //     }, '456')
                     // return flag.value
                     //     ? h('button', { onClick: add, style: { fontSize: '20px' } }, `${props.title || 'count'}: ${count.value}`)
                     //     : h('h1', { onClick: changeFlag }, 'flag false')

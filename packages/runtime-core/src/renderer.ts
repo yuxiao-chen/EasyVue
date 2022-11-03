@@ -67,7 +67,6 @@ export function createRenderer(renderOptions) {
     const mountChildren = (children, container, anchor) => {
         for (let i = 0; i < children.length; i++) {
             const child = children[i] = normallizeVNode(children[i]);
-            console.log('child', child)
             patch(null, child, container, anchor)
         }
     }
@@ -172,6 +171,52 @@ export function createRenderer(renderOptions) {
         }
 
         // 5. unkone sequence
+        else {
+
+
+            // [i ... e1 + 1]: a b [c d e] f g
+            // [i ... e2 + 1]: a b [e d c h] f g
+            const s1 = i
+            const s2 = i
+            // 5.1 以新子节点 创建一个 节点key:index 的 Map
+            // 用于判断旧节点中是否存在和新子节点一样的节点
+            const keyToNewIndexMap = new Map()
+            for (let i = s2; i <= e2; i++) {
+                const child = c2[i]
+                keyToNewIndexMap.set(child.key, i)
+            }
+
+            // 5.2 新索引到老索引的映射表 ⬇️
+            const toBePatched = e2 - s2 + 1
+            const newIndexToOldMapIndex = new Array(toBePatched).fill(0)
+            for (let i = s1; i <= e1; i++) {
+                const prevChild = c1[i]
+                let newIndex = keyToNewIndexMap.get(prevChild.key)
+                console.log(`旧节点 ${i} 在新子节点 ${newIndex}`)
+                if (typeof newIndex === 'undefined') {
+                    unmount(prevChild)
+                } else {
+                    newIndexToOldMapIndex[newIndex - s2] = i + 1
+                    // 找到同节点了， 进行 patch
+                    patch(prevChild, c2[newIndex], container)
+                }
+            }
+
+            for (let i = toBePatched - 1; i >= 0; i--) {
+                const lastIndex = s2 + i
+                let lastChild = c2[lastIndex]
+                console.log('lastIndex', lastIndex, lastChild)
+                const anchor = lastIndex + 1 < c2.length ? c2[lastIndex + 1].el : null
+                if (newIndexToOldMapIndex[i] == 0) {
+                    // 在旧子节点里找不到新节点， 表示需要创建元素添加
+                    patch(null, lastChild, container, anchor)
+                } else {
+                    hostInsert(lastChild.el, container, anchor)
+                }
+
+            }
+            console.log('newIndexToOldMapIndex', newIndexToOldMapIndex)
+        }
 
     }
 
